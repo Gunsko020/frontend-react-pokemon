@@ -1,25 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
+import './Pokemon.css';
 
 
 
 const Pokemon = ({endpoint}) => {
+
+
     useEffect(() => {
+        async function findpokemon(){
+            try{ const response = await axios.get(endpoint)
+                setPokemon(response.data)
+            }catch(e){
+                console.error(e)
+            }
+        }
         void findpokemon()
-    }, []);
+    }, [endpoint]);
 
     const [pokemon,setPokemon] = useState("")
 
-    async function findpokemon(){
-        try{ const response = await axios.get('https://pokeapi.co/api/v2/pokemon/charizard')
-            setPokemon(response.data)
-            console.log(response.data)
-        }catch(e){
-            console.error(e)
-        }
-    }
+
     return (
-        <article className="pokemon-card">
+        <article className="poke-card">
             {Object.keys(pokemon).length > 0 &&
                 <>
                     <h2>{pokemon.name}</h2>
